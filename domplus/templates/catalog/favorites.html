@@ -1,0 +1,37 @@
+{% extends 'catalog/base.html' %}
+{% block title %}Избранное — DomPlus{% endblock %}
+
+{% block content %}
+
+<h1 class="h3 mb-4">⭐ Избранное</h1>
+
+{% if apartments %}
+  <div class="row g-4">
+    {% for apt in apartments %}
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card apt-card h-100">
+          <div class="apt-img">
+            📷 Фото
+            {% include 'catalog/_favorite_button.html' with apartment=apt is_favorite=True %}
+          </div>
+          <div class="card-body d-flex flex-column">
+            <div class="apt-price mb-1">{{ apt.price|floatformat:0 }} ₽</div>
+            <div class="apt-title mb-1">{{ apt.title }}</div>
+            <div class="apt-sub mb-3">📍 {{ apt.address }}</div>
+            <a href="{% url 'apartment_detail' apt.pk %}" class="btn btn-primary mt-auto">
+              Подробнее
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="text-center p-5 text-muted">
+    <h4>В избранном пока пусто</h4>
+    <p>Добавляйте квартиры, нажав на ❤ в каталоге</p>
+    <a href="{% url 'catalog' %}" class="btn btn-primary">Перейти в каталог</a>
+  </div>
+{% endif %}
+
+{% endblock %}

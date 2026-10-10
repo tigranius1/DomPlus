@@ -1,0 +1,20 @@
+<div data-fav-count="{{ favorites_count|default:0 }}" style="display:inline;">
+  <button class="fav-btn {% if is_favorite %}active{% endif %}"
+          hx-post="{% url 'toggle_favorite' apartment.pk %}"
+          hx-target="closest div[data-fav-count]"
+          hx-swap="outerHTML"
+          hx-on::after-request="updateFavCounter(event)"
+          title="Избранное">
+    {% if is_favorite %}❤{% else %}♡{% endif %}
+  </button>
+</div>
+
+<script>
+  function updateFavCounter(event) {
+    const xhr = event.detail.xhr;
+    const match = xhr.responseText.match(/data-fav-count="(\d+)"/);
+    if (match) {
+      document.getElementById('fav-counter').textContent = match[1];
+    }
+  }
+</script>

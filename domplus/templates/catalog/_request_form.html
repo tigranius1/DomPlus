@@ -1,0 +1,26 @@
+<form hx-post="{% url 'submit_request' apartment.pk %}"
+      hx-target="#request-form-container"
+      hx-swap="innerHTML">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label class="form-label">Ваше имя</label>
+    {{ form.name }}
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Телефон</label>
+    {{ form.phone }}
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Удобная дата</label>
+    {{ form.preferred_date }}
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Комментарий</label>
+    {{ form.comment }}
+  </div>
+  <div class="d-flex gap-2">
+    <button type="button" class="btn btn-outline-secondary flex-grow-1"
+            @click="open = false">Отмена</button>
+    <button type="submit" class="btn btn-primary flex-grow-1">Отправить</button>
+  </div>
+</form>

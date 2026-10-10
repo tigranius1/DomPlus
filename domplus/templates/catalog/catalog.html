@@ -1,0 +1,65 @@
+{% extends 'catalog/base.html' %}
+{% block title %}Каталог квартир — DomPlus{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+  <h1 class="h3 mb-0">Квартиры в Москве</h1>
+  <div class="text-muted small">
+    Найдено: <strong id="total-count">{{ total_count }}</strong> объектов
+  </div>
+</div>
+
+<!-- ФИЛЬТРЫ (HTMX) -->
+<form id="filter-form"
+      hx-get="{% url 'catalog' %}"
+      hx-target="#apartment-list"
+      hx-trigger="change, submit"
+      hx-indicator="#filter-spinner"
+      hx-push-url="true"
+      class="card mb-4">
+  <div class="card-body">
+    <div class="row g-3">
+      <div class="col-12 col-md-6 col-lg-3">
+        <label class="form-label small text-muted">Цена от</label>
+        {{ filter_form.price_min }}
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <label class="form-label small text-muted">Цена до</label>
+        {{ filter_form.price_max }}
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <label class="form-label small text-muted">Район</label>
+        {{ filter_form.district }}
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <label class="form-label small text-muted">Площадь от, м²</label>
+        {{ filter_form.area_min }}
+      </div>
+      <div class="col-6 col-lg-3">
+        <label class="form-label small text-muted">Этаж от</label>
+        {{ filter_form.floor_min }}
+      </div>
+      <div class="col-6 col-lg-3">
+        <label class="form-label small text-muted">Этаж до</label>
+        {{ filter_form.floor_max }}
+      </div>
+      <div class="col-12 col-lg-6 d-flex align-items-end gap-2">
+        <button type="submit" class="btn btn-primary flex-grow-1">
+          Применить
+        </button>
+        <a href="{% url 'catalog' %}" class="btn btn-outline-secondary">Сброс</a>
+        <span id="filter-spinner" class="htmx-indicator">
+          <span class="spinner"></span>
+        </span>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- СПИСОК КВАРТИР (цель для HTMX) -->
+<div id="apartment-list">
+  {% include 'catalog/_apartment_list.html' %}
+</div>
+
+{% endblock %}
